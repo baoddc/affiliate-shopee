@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shopee Affiliate Link Refiner - Công cụ chuyển đổi link sản phẩm Shopee thành link tiếp thị liên kết tự động, nhanh chóng và bảo mật.">
+  <title>Shopee Affiliate Link Refiner | Tự Động Tạo Link Tiếp Thị</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Background Orbs -->
+  <div class="ambient-glow orb-1"></div>
+  <div class="ambient-glow orb-2"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <i class="fa-solid fa-bolt logo-icon"></i>
+        <h1 class="logo-text">SHOPEE AFFILIATE <span>REFINER</span></h1>
+      </div>
+      <div class="system-status">
+        <span class="status-dot"></span>
+        <span class="status-label">HỆ THỐNG SẴN SÀNG</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="app-workspace">
+      
+      <!-- API & CONFIGURATION CARD -->
+      <section class="workspace-card config-card" id="configSection">
+        <div class="card-header" id="configToggle">
+          <div class="header-title">
+            <i class="fa-solid fa-sliders icon-accent"></i>
+            <h2>Cấu Hình Tài Khoản Affiliate</h2>
+          </div>
+          <button class="btn-toggle-drawer" id="btnToggleConfig" aria-label="Đóng mở cấu hình">
+            <i class="fa-solid fa-chevron-up toggle-icon" id="configToggleIcon"></i>
+          </button>
+        </div>
+        
+        <div class="card-content collapsible-drawer active" id="configDrawer">
+          <p class="config-desc">
+            Mã định danh Affiliate ID của bạn được thiết lập mặc định và không thể sửa đổi. Bạn có thể cấu hình thêm Sub ID để theo dõi nguồn click.
+          </p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="inputAffId">Affiliate ID <span class="required">* (Cố định)</span></label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="text" id="inputAffId" value="17342170319" readonly style="opacity: 0.65; cursor: not-allowed; border-color: hsl(var(--border-card));">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="inputSubId1">Sub ID 1 <span class="optional">(Theo dõi nguồn)</span></label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-chart-line input-icon"></i>
+                <input type="text" id="inputSubId1" placeholder="Ví dụ: facebook, tiktok, bio...">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btnSaveConfig">
+              <i class="fa-solid fa-floppy-disk"></i> Lưu Cấu Hình
+            </button>
+            <span class="save-status-msg" id="saveStatusMsg"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONVERTER SECTION -->
+      <div class="converter-layout">
+        <!-- INPUT AREA -->
+        <section class="workspace-card input-card">
+          <div class="card-header">
+            <div class="header-title">
+              <i class="fa-solid fa-link icon-accent"></i>
+              <h2>Link Sản Phẩm Gốc</h2>
+            </div>
+          </div>
+          <div class="card-content">
+            <p class="field-desc">Dán đường dẫn sản phẩm Shopee cần quảng bá (Hỗ trợ định dạng link thường hoặc link rút gọn):</p>
+            <div class="input-area-wrapper">
+              <textarea id="textareaSourceUrl" placeholder="https://shopee.vn/product-name-i.12345.678910 hoặc https://s.shopee.vn/abcdef" required></textarea>
+              <div class="textarea-actions">
+                <button class="btn-text" id="btnClearInput" aria-label="Xóa dữ liệu nhập">
+                  <i class="fa-solid fa-trash-can"></i> Xóa
+                </button>
+              </div>
+            </div>
+            <button class="btn btn-gradient btn-full" id="btnConvert">
+              <span>QUY ĐỔI LINK AFFILIATE</span>
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+          </div>
+        </section>
+
+        <!-- SIGNAL PATH (SIGNATURE ELEMENT) -->
+        <div class="signal-path-container">
+          <div class="signal-line">
+            <span class="signal-pulse"></span>
+          </div>
+        </div>
+
+        <!-- OUTPUT AREA -->
+        <section class="workspace-card output-card" id="outputSection">
+          <div class="card-header">
+            <div class="header-title">
+              <i class="fa-solid fa-share-nodes icon-accent"></i>
+              <h2>Kết Quả Quy Đổi</h2>
+            </div>
+          </div>
+          <div class="card-content result-content-wrapper">
+            
+            <!-- Default / Empty State -->
+            <div class="empty-state" id="outputEmptyState">
+              <div class="empty-icon-wrapper">
+                <i class="fa-solid fa-square-poll-horizontal"></i>
+              </div>
+              <p>Chưa có dữ liệu. Vui lòng điền thông tin và nhấn "Quy đổi".</p>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state hidden" id="outputLoadingState">
+              <div class="spinner-mesh">
+                <div class="mesh-circle"></div>
+                <div class="mesh-circle"></div>
+                <div class="mesh-circle"></div>
+              </div>
+              <p>Đang liên kết dữ liệu Shopee...</p>
+            </div>
+
+            <!-- Result Active State -->
+            <div class="result-details hidden" id="outputResultDetails">
+              
+              <!-- Converted Link Box -->
+              <div class="result-box">
+                <label>Đường Dẫn Affiliate</label>
+                <div class="result-link-container">
+                  <input type="text" id="inputResultUrl" readonly>
+                  <button class="btn btn-copy" id="btnCopyResult" title="Sao chép link">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>SAO CHÉP</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Content Visual Preview (Premium Feature) -->
+              <div class="preview-card-container">
+                <label>Xem Trước Sản Phẩm</label>
+                <div class="product-preview-card" id="productPreviewCard">
+                  <div class="preview-thumbnail" id="previewImgWrapper">
+                    <img id="previewProductImg" src="" alt="Thumbnail sản phẩm">
+                    <div class="preview-img-fallback hidden" id="previewImgFallback">
+                      <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                  </div>
+                  <div class="preview-info">
+                    <h3 class="preview-title" id="previewProductTitle">Đang tải thông tin sản phẩm...</h3>
+                    <p class="preview-desc" id="previewProductDesc">Kết nối trực tiếp đến trang nguồn Shopee.</p>
+                    <div class="preview-badge">
+                      <i class="fa-solid fa-shield-halved"></i>
+                      <span>Affiliate Verified</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Share Tools (QR Code & Open Link) -->
+              <div class="share-tools-grid">
+                <div class="qr-container">
+                  <div class="qr-code-box" id="qrCodeBox">
+                    <!-- QR Code Image is injected here -->
+                  </div>
+                  <p class="qr-label">Quét mã QR mua nhanh</p>
+                </div>
+                
+                <div class="share-actions">
+                  <a href="#" target="_blank" class="btn btn-outline btn-full" id="linkOpenDirect">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Test Link Thực Tế
+                  </a>
+                  <button class="btn btn-outline btn-full" id="btnDownloadQR">
+                    <i class="fa-solid fa-download"></i> Tải Mã QR
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- HISTORY LOG SECTION -->
+      <section class="workspace-card history-card">
+        <div class="card-header">
+          <div class="header-title">
+            <i class="fa-solid fa-clock-rotate-left icon-accent"></i>
+            <h2>Lịch Sử Quy Đổi</h2>
+          </div>
+          <div class="history-controls">
+            <div class="search-wrapper">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="inputSearchHistory" placeholder="Tìm kiếm link...">
+            </div>
+            <button class="btn btn-danger-text" id="btnClearHistory">
+              <i class="fa-solid fa-trash-can"></i> Xóa Hết Lịch Sử
+            </button>
+          </div>
+        </div>
+        
+        <div class="card-content">
+          <div class="history-table-container">
+            <table class="history-table" id="historyTable">
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Tên sản phẩm / Link gốc</th>
+                  <th>Link Affiliate</th>
+                  <th class="actions-col">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Empty History State -->
+          <div class="empty-state hidden" id="historyEmptyState">
+            <i class="fa-solid fa-box-open empty-icon"></i>
+            <p>Lịch sử trống. Hãy tạo link đầu tiên của bạn!</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>&copy; 2026 Shopee Affiliate Link Refiner. Thiết kế cao cấp cho Publisher Việt Nam.</p>
+      <div class="footer-links">
+        <a href="https://affiliate.shopee.vn" target="_blank">Shopee Affiliate Program</a>
+        <span class="divider">|</span>
+        <a href="#" id="btnShowHelp">Hướng dẫn sử dụng</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Help Modal -->
+  <div class="modal-overlay hidden" id="helpModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-circle-info icon-accent"></i> Hướng Dẫn Sử Dụng</h3>
+        <button class="btn-close-modal" id="btnCloseHelpModal" aria-label="Đóng modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>1. Cách lấy Affiliate ID của bạn:</h4>
+        <ol>
+          <li>Đăng nhập vào bảng điều khiển <strong>Shopee Affiliate</strong> tại địa chỉ <a href="https://affiliate.shopee.vn" target="_blank">affiliate.shopee.vn</a>.</li>
+          <li>Nhấp vào ảnh đại diện hoặc phần cài đặt tài khoản ở góc màn hình.</li>
+          <li>Tìm dòng <strong>Mã định danh (Affiliate ID)</strong> - đây là một chuỗi số (ví dụ: <code>102849103</code>).</li>
+          <li>Nhập mã này vào ô cấu hình trên web và nhấn <strong>Lưu Cấu Hình</strong>.</li>
+        </ol>
+        
+        <h4>2. Tạo link tiếp thị liên kết:</h4>
+        <ol>
+          <li>Copy link sản phẩm bất kỳ trên Shopee (ví dụ: <code>https://shopee.vn/product-name-i.123.456</code>).</li>
+          <li>Dán link vào khung "Link Sản Phẩm Gốc" và ấn nút <strong>QUY ĐỔI LINK AFFILIATE</strong>.</li>
+          <li>Hệ thống sẽ ngay lập tức tạo ra link điều hướng affiliate cho bạn kèm mã QR và thông tin hình ảnh sản phẩm xem trước.</li>
+          <li>Click <strong>SAO CHÉP</strong> để lấy link đăng lên Facebook, Youtube, Tiktok để nhận hoa hồng!</li>
+        </ol>
+
+        <h4>3. Lưu ý quan trọng:</h4>
+        <ul>
+          <li>Link tạo bằng phương pháp ghép mã điều hướng trực tiếp này sẽ được Shopee ghi nhận hoa hồng chính chủ qua mã <code>affiliate_id</code> của bạn.</li>
+          <li>Sử dụng thêm trường <code>Sub ID</code> để theo dõi doanh thu từ các nguồn khác nhau.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Javascript -->
+  <script src="app.js"></script>
+</body>
+</html>

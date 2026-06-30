@@ -1,0 +1,22 @@
+{
+  "name": "shopee-affiliate-converter",
+  "version": "1.0.0",
+  "description": "Shopee Affiliate Link Converter with dynamic product preview",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "shopee",
+    "affiliate",
+    "converter"
+  ],
+  "author": "Antigravity",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
